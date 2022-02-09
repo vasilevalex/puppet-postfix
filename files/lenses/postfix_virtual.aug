@@ -34,6 +34,9 @@ let space_or_eol (sep:regexp) (default:string) =
 (* View: word *)
 let word = store /[A-Za-z0-9@\*.+=_-]+/
 
+(* View: regexp_word *)
+let regexp_word = store /[A-Za-z0-9@\*.+=_-\/^${}<>\[\]\,]+/
+
 (* View: comma *)
 let comma = space_or_eol "," ", "
 
@@ -43,7 +46,7 @@ let destination = [ label "destination" . word ]
 (* View: record *)
 let record =
   let destinations = Build.opt_list destination comma
-  in [ label "pattern" . word
+  in [ label "pattern" . regexp_word
      . space_or_eol Rx.space " " . destinations
      . Util.eol ]
 
